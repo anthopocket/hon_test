@@ -278,6 +278,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         await coordinator.async_set(parameters)
         await coordinator.async_request_refresh()
 
+    #rajouterap
+    # Generic method to TURN Pause any hOn device
+    async def handle_turn_off(call):
+        device_id = call.data.get("device")
+        mac = get_hOn_mac(device_id, hass)
+        
+        coordinator = await hon.async_get_existing_coordinator(mac)
+        parameters = {"pausefStatus": "2", "machMode": "1" }
+        await coordinator.async_set(parameters)
+        await coordinator.async_request_refresh()
+    #
+    #
+    
     async def handle_light_on(call):
         device_id = call.data.get("device")
         mac = get_hOn_mac(device_id, hass)
